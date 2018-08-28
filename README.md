@@ -82,7 +82,7 @@ as well as their coordinates and cardinal direction.
 
 ## Main
 
-The main function is the function that runs the simulation. It runs an endless loop of the following:
+The [main function](https://github.com/karithrastarson/mars-rover/blob/master/marsrover/src/marsrover/Main.java#L9) is the function that runs the simulation. It runs an endless loop of the following:
 
 1. Prompt the user for input
 
