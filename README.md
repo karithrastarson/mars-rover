@@ -1,10 +1,10 @@
 # Implementation and how to run
 
-The construction of the classes is inspired by the problem description. 
+The construction of the classes is inspired by [the problem description](https://github.com/karithrastarson/mars-rover/blob/master/PROBLEM_DESCRIPTION.md). 
 The nouns were considered as classes while verbs were considered as methods.
 As the project progressed, the more complex logic was extracted to helper functions to make the code more accessible. 
 
-The program is executed by running the main method in file /marsrover/src/marsrover/Main.java
+The program is executed by running the main method in file [/marsrover/src/marsrover/Main.java](https://github.com/karithrastarson/mars-rover/blob/master/marsrover/src/marsrover/Main.java)
 
 # Classes and structure
 ## Rover
