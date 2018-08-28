@@ -7,25 +7,40 @@ import com.mars.objects.Rover;
 import com.mars.tools.CardinalDirection;
 
 public class Controller {
+	
+	//Class Variables
+	
+	//List of rovers present in the simulation
 	private ArrayList<Rover> rovers;
+	
+	//The platform on which the rovers navigate
 	private Plateau plateau;
+	
+	//The last rover that the user created
 	private Rover lastEstablishedRover;
 
+	//Constructor
 	public Controller() {
 		rovers = new ArrayList<Rover>(); 
 	}
 
+	//This function takes input from the user to establish the grid, which is the plateau.
 	public void initializePlateau(int row, int col) {
 		plateau = new Plateau(row, col);
 		if(rovers != null) {
-			
+			//If the rovers have been established before, 
+			//then that record is viped, as the user is starting a new simulation with a new grid.
+			rovers = new ArrayList<Rover>(); 
 		}
 	}
 
 	//Create a rover in a specific location
 	public void createRover(int x, int y, CardinalDirection car) {
+		//Make sure that the given coordinates are not outside the established plateau.
 		if(x < plateau.getCols() && y < plateau.getRows()) {
 		Rover rover = new Rover(x, y, car);
+		
+		//Update the information in the plateau. 
 		plateau.occupyCell(x, y);
 
 		lastEstablishedRover = rover;
@@ -39,7 +54,6 @@ public class Controller {
 	public void moveRover(String sequence, Rover rover) {
 		//The input sequence is a sequence of manouevres, L, R or M.
 		//Those manouevres are then applied to the selected rover
-		//TODO:The precondition is that the string sequence has already been sanitized, so it only includes characters L, R or M.
 		for (char ch: sequence.toCharArray()) {
 			switch(ch) {
 			case 'L': rover.turnLeft();
@@ -52,15 +66,14 @@ public class Controller {
 					plateau.clearCell(rover.getX(), rover.getY());
 					rover.moveForward();
 					plateau.occupyCell(rover.getX(), rover.getY());
-
 				}
 				break;
 			default: break;
 			}
 		}
 	}
-	/*
-	 * The processInput() function should handle three types of input:
+	
+	/* The processInput() function should handle three types of input:
 	1. format "X Y" where X and Y are positive non-zero integers. This established the plateau. 
 		TODO: Boundary case: What happens if the plateau has already been established? re-establish and wipe all rovers. 
 		This means a new simulation is starting.
@@ -76,8 +89,8 @@ public class Controller {
 		input = input.toUpperCase();
 		//First check: If the input contains no spaces, then this is a manoeuvre string.
 		if(!input.contains(" ")) {
-
-			//Further logic for manoueuvre strings
+			//This string will be sanitized as a manoueuvre string.
+			
 			//Scroll through all characters of the string and make sure their either L, R or M.
 			boolean inputIsValid = true;
 			for (char ch: input.toCharArray()) {
@@ -136,13 +149,11 @@ public class Controller {
 				if(x > 0 && y > 0) {
 					initializePlateau(x, y);
 				}
-
 			} 
 			catch (NumberFormatException e)
 			{
 				System.out.println("Input parameter is not a valid integer number");
 			}
-
 		}
 		System.out.println("Invalid input");
 		return;
@@ -156,15 +167,19 @@ public class Controller {
 		//Get the cardinal direction of the rover
 		CardinalDirection dir = rover.getCardinalDirection();
 
+		//See if the rover is headed outside the plateau
 		switch(dir) {
-		case NORTH: return (rover.getY() == rows - 1);
-		case SOUTH: return (rover.getY() == 0);
-		case WEST: return (rover.getX() == 0);
-		case EAST: return (rover.getX() == cols -1);
+			case NORTH: return (rover.getY() == rows - 1);
+			case SOUTH: return (rover.getY() == 0);
+			case WEST: return (rover.getX() == 0);
+			case EAST: return (rover.getX() == cols -1);
 		}
 		return false;
 	}
 
+	/* displayGrid is a pretty messy string manipulation method
+	 * created to display the current status of the system. This methods is plagued with
+	 * all sorts of boundary checks, to make sure not to run into any nullpointer exception*/
 	public String displayGrid() {
 		String gridString = "";
 		if(plateau != null) {
@@ -194,6 +209,7 @@ public class Controller {
 			return "No plateau has not yet been established. Please establish it before running other commands. You do so by entering two numbers, indicating the dimension";
 		}
 		
+		//Finally, print the status of all rovers present in the simulation
 		if(rovers != null) {
 			int i = 1;
 			for(Rover r : rovers) {
@@ -203,6 +219,7 @@ public class Controller {
 		return gridString;
 	}
 
+	//getRoverAtCell is created to be able to fetch the rover of each cell, to be able to display its cardinal direction
 	private Rover getRoverAtCell(int x, int y) {
 		if(rovers == null) {
 			return null;
