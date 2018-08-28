@@ -90,4 +90,16 @@ The main function is the function that runs the simulation. It runs an endless l
 
 3. Output the status of the system, provided by the controller.
 
+# Next steps, ideas.
 
+The next steps of the project could be:
+
+* Unit tests and proper QA structure.
+
+* Establish a front-end that would make the simulation more visual
+
+* Operate multiple rovers per simulation, not just the latest one launched.
+
+* Handle interaction between rovers, to avoid crashes in the grid system.
+
+* Establish further boundaries on the simulation. For example, what should be the maximum number of rovers in a simulation?
